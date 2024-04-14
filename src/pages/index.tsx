@@ -1,9 +1,8 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import Head from "next/head";
-const inter = Inter({ subsets: ["latin"] });
 import { Post } from "@/types"; 
 import Link from "next/link";
+import Styles from '../styles/Home.module.css'
+
 
 type Props = {
   posts:Post[]
@@ -23,7 +22,7 @@ export async function getStaticProps() {
   }
 } 
 
-export default function Home({ posts }):Props {
+export default function Home({ posts }:Props) {
   return (
     <>
       <Head>
@@ -33,12 +32,25 @@ export default function Home({ posts }):Props {
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-      <div>
+
+      <div className={Styles.homeContainer}>
+       <h1>Rails & Next.js Project</h1>
+       <Link href="/create-post" className={Styles.createButton}>
+           Create New Post
+       </Link>
+
+       <div>
         {posts.map((post:Post)=>(
-        <div key={post.id} className={Styles.PostCard}>
-          <Link href={`posts/${post.id}`}></Link>
-        </div> 
+         <div key={post.id} className={Styles.postCard}>
+          <Link href={`posts/${post.id}`} className={Styles.PostCardBox}>
+            <h2>{post.title}</h2>
+          </Link>
+            <p>{post.content}</p>
+            <button className={Styles.editButton}>Edit</button>
+            <button className={Styles.deleteButton}>Delete</button>
+         </div> 
         ))}
+       </div>
       </div>
     </>
   );
